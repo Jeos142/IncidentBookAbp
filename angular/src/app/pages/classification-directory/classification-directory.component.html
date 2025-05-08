@@ -1,0 +1,77 @@
+<div *ngIf="isAuthenticated" class="directory-container">
+  <h2>Справочник классификаций</h2>
+
+  <!-- Форма для добавления новой классификации -->
+  <div class="directory-header">
+    <input
+      [(ngModel)]="newClassification.classificationName"
+      placeholder="Классификация"
+      required
+    />
+    <button class="directory-buttons" (click)="addClassification()">
+      Добавить
+    </button>
+  </div>
+
+  <!-- Список классификаций -->
+  <ul class="directory-list">
+    <li *ngFor="let classification of classifications" class="directory-item">
+      <span *ngIf="editedClassification?.id !== classification.id">
+        {{ classification.classificationName }}
+      </span>
+
+      <input
+        *ngIf="editedClassification?.id === classification.id"
+        [(ngModel)]="editedClassification.classificationName"
+        placeholder="Редактировать классификацию"
+        required
+      />
+
+      <div class="button-group">
+        <button
+          class="directory-buttons"
+          *ngIf="editedClassification?.id !== classification.id"
+          (click)="startEditing(classification)"
+        >
+          Редактировать
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedClassification?.id === classification.id"
+          (click)="saveClassification()"
+        >
+          Сохранить
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedClassification?.id === classification.id"
+          (click)="cancelEditing()"
+        >
+          Отмена
+        </button>
+
+<!--        <button-->
+<!--          class="directory-buttons danger"-->
+<!--          (click)="deleteClassification(classification.id)"-->
+<!--        >-->
+<!--          Удалить-->
+<!--        </button>-->
+      </div>
+    </li>
+  </ul>
+
+  <!-- Сообщение, если классификаций нет -->
+  <div *ngIf="classifications.length === 0" class="empty-message">
+    Нет классификаций для отображения.
+  </div>
+</div>
+<app-simple-modal
+  [message]="modalMessage"
+  [visible]="isModalVisible"
+  (closed)="isModalVisible = false">
+</app-simple-modal>
+<div *ngIf="!isAuthenticated" class="no-auth-text">
+  <p>Пожалуйста, войдите в систему, чтобы просматривать данные.</p>
+</div>

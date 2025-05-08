@@ -1,0 +1,101 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "IncidentBookAbp.Application": {
+      "path": "src/IncidentBookAbp.Application/IncidentBookAbp.Application.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.Application.Tests": {
+      "path": "test/IncidentBookAbp.Application.Tests/IncidentBookAbp.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "IncidentBookAbp.Domain.Shared": {
+      "path": "src/IncidentBookAbp.Domain.Shared/IncidentBookAbp.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.Application.Contracts": {
+      "path": "src/IncidentBookAbp.Application.Contracts/IncidentBookAbp.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.HttpApi": {
+      "path": "src/IncidentBookAbp.HttpApi/IncidentBookAbp.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.HttpApi.Client": {
+      "path": "src/IncidentBookAbp.HttpApi.Client/IncidentBookAbp.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.EntityFrameworkCore.Tests": {
+      "path": "test/IncidentBookAbp.EntityFrameworkCore.Tests/IncidentBookAbp.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "IncidentBookAbp.EntityFrameworkCore": {
+      "path": "src/IncidentBookAbp.EntityFrameworkCore/IncidentBookAbp.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.TestBase": {
+      "path": "test/IncidentBookAbp.TestBase/IncidentBookAbp.TestBase.abppkg",
+      "folder": "test"
+    },
+    "IncidentBookAbp.Domain.Tests": {
+      "path": "test/IncidentBookAbp.Domain.Tests/IncidentBookAbp.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "IncidentBookAbp.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/IncidentBookAbp.HttpApi.Client.ConsoleTestApp/IncidentBookAbp.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "IncidentBookAbp.DbMigrator": {
+      "path": "src/IncidentBookAbp.DbMigrator/IncidentBookAbp.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.HttpApi.Host": {
+      "path": "src/IncidentBookAbp.HttpApi.Host/IncidentBookAbp.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "IncidentBookAbp.Domain": {
+      "path": "src/IncidentBookAbp.Domain/IncidentBookAbp.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

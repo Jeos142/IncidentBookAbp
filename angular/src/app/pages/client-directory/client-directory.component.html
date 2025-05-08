@@ -1,0 +1,73 @@
+<div *ngIf="isAuthenticated" class="directory-container">
+  <h2>Справочник клиентов</h2>
+
+  <!-- Форма для добавления нового клиента -->
+  <div class="directory-header">
+    <input
+      [(ngModel)]="newClient.name"
+      placeholder="Имя клиента"
+      required
+    />
+    <button class="directory-buttons" (click)="addClient()">Добавить</button>
+  </div>
+
+  <!-- Список клиентов -->
+  <ul class="directory-list">
+    <li *ngFor="let client of clients" class="directory-item">
+      <span *ngIf="editedClient?.id !== client.id">{{ client.name }}</span>
+
+      <input
+        *ngIf="editedClient?.id === client.id"
+        [(ngModel)]="editedClient.name"
+        placeholder="Редактировать имя"
+        required
+      />
+
+      <div class="button-group">
+        <button
+          class="directory-buttons"
+          *ngIf="editedClient?.id !== client.id"
+          (click)="startEditing(client)"
+        >
+          Редактировать
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedClient?.id === client.id"
+          (click)="saveClient()"
+        >
+          Сохранить
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedClient?.id === client.id"
+          (click)="cancelEditing()"
+        >
+          Отмена
+        </button>
+
+<!--        <button-->
+<!--          class="directory-buttons danger"-->
+<!--          (click)="deleteClient(client.id)"-->
+<!--        >-->
+<!--          Удалить-->
+<!--        </button>-->
+      </div>
+    </li>
+  </ul>
+
+  <!-- Сообщение, если клиентов нет -->
+  <div *ngIf="clients.length === 0" class="empty-message">
+    Нет клиентов для отображения.
+  </div>
+</div>
+<app-simple-modal
+  [message]="modalMessage"
+  [visible]="isModalVisible"
+  (closed)="isModalVisible = false">
+</app-simple-modal>
+<div *ngIf="!isAuthenticated" class="no-auth-text">
+  <p>Пожалуйста, войдите в систему, чтобы просматривать данные.</p>
+</div>

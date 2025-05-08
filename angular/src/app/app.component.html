@@ -1,0 +1,24 @@
+<nav class="main-nav">
+  <div class="nav-left">
+    <a routerLink="/clients" routerLinkActive="active-link">Клиенты</a>
+    <a routerLink="/incidents" routerLinkActive="active-link">Инциденты</a>
+    <a routerLink="/classifications" routerLinkActive="active-link">Классификации</a>
+    <a routerLink="/resolutions" routerLinkActive="active-link">Резолюции</a>
+  </div>
+
+  <div class="nav-right">
+     <span *ngIf="hasLoggedIn" style="margin-right: 10px;">
+    👤 {{ userName }}
+  </span>
+    <a *ngIf="!hasLoggedIn" (click)="login()" class="btn btn-primary ">
+      <i class="fa fa-sign-in"></i> Войти
+    </a>
+
+    <a *ngIf="hasLoggedIn" (click)="logout()" class="btn btn-danger ">
+      <i class="fa fa-sign-out"></i> Выйти
+    </a>
+  </div>
+</nav>
+
+<app-loader></app-loader>
+<router-outlet></router-outlet>

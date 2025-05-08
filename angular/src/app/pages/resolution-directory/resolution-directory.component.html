@@ -1,0 +1,78 @@
+<div *ngIf="isAuthenticated" class="directory-container">
+  <h2>Справочник резолюций</h2>
+
+  <!-- Форма для добавления новой резолюции -->
+  <div class="directory-header">
+    <input
+      [(ngModel)]="newResolution.resolutionName"
+      placeholder="Резолюция"
+      required
+    />
+    <button class="directory-buttons" (click)="addResolution()">
+      Добавить
+    </button>
+  </div>
+
+  <!-- Список резолюций -->
+  <ul class="directory-list">
+    <li *ngFor="let resolution of resolutions" class="directory-item">
+      <span *ngIf="editedResolution?.id !== resolution.id">
+        {{ resolution.resolutionName }}
+      </span>
+
+      <input
+        *ngIf="editedResolution?.id === resolution.id"
+        [(ngModel)]="editedResolution.resolutionName"
+        placeholder="Редактировать резолюцию"
+        required
+      />
+
+      <div class="button-group">
+        <button
+          class="directory-buttons"
+          *ngIf="editedResolution?.id !== resolution.id"
+          (click)="startEditing(resolution)"
+        >
+          Редактировать
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedResolution?.id === resolution.id"
+          (click)="saveResolution()"
+        >
+          Сохранить
+        </button>
+
+        <button
+          class="directory-buttons"
+          *ngIf="editedResolution?.id === resolution.id"
+          (click)="cancelEditing()"
+        >
+          Отмена
+        </button>
+
+<!--        <button-->
+<!--          class="directory-buttons danger"-->
+<!--          (click)="deleteResolution(resolution.id)"-->
+<!--        >-->
+<!--          Удалить-->
+<!--        </button>-->
+      </div>
+    </li>
+  </ul>
+
+  <!-- Сообщение, если резолюций нет -->
+  <div *ngIf="resolutions.length === 0" class="empty-message">
+    Нет резолюций для отображения.
+  </div>
+</div>
+<app-simple-modal
+  [message]="modalMessage"
+  [visible]="isModalVisible"
+  (closed)="isModalVisible = false">
+</app-simple-modal>
+<div *ngIf="!isAuthenticated" class="no-auth-text">
+  <p>Пожалуйста, войдите в систему, чтобы просматривать данные.</p>
+</div>
+

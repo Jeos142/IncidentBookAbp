@@ -1,0 +1,136 @@
+<div *ngIf="isAuthenticated" class="directory-container">
+  <h2>Справочник инцидентов</h2>
+
+  <!-- Форма для добавления нового инцидента -->
+  <div class="directory-header">
+    <input
+      [(ngModel)]="newIncident.description"
+      placeholder="Описание инцидента"
+      required
+    />
+
+    <label>Классификация:</label>
+    <select [(ngModel)]="newIncident.classificationId" required>
+      <option *ngFor="let classification of classifications" [value]="classification.id">
+        {{ classification.classificationName }}
+      </option>
+    </select>
+
+    <label>Клиент:</label>
+    <select [(ngModel)]="newIncident.clientId" required>
+      <option *ngFor="let client of clients" [value]="client.id">
+        {{ client.name }}
+      </option>
+    </select>
+
+    <input
+      type="datetime-local"
+      [(ngModel)]="newIncident.dateTime"
+      required
+    />
+
+    <label>
+      <input type="checkbox" [(ngModel)]="newIncident.isComplete" /> Завершен
+    </label>
+
+    <div *ngIf="newIncident.isComplete">
+      <label>Резолюция:</label>
+      <select [(ngModel)]="newIncident.resolutionId" required>
+        <option *ngFor="let resolution of resolutions" [value]="resolution.id">
+          {{ resolution.resolutionName }}
+        </option>
+      </select>
+    </div>
+
+    <button class="directory-buttons" (click)="addIncident()">
+      Добавить
+    </button>
+  </div>
+
+  <!-- Список инцидентов -->
+  <ul class="directory-list">
+    <li *ngFor="let incident of incidents" class="directory-item">
+      <div *ngIf="editedIncident?.incident.id === incident.incident.id; else viewMode">
+
+        <input
+          [(ngModel)]="editedIncident.incident.description"
+          placeholder="Описание"
+          required
+        />
+
+        <select [(ngModel)]="editedIncident.incident.classificationId" required>
+          <option *ngFor="let classification of classifications" [value]="classification.id">
+            {{ classification.classificationName }}
+          </option>
+        </select>
+
+        <select [(ngModel)]="editedIncident.incident.clientId" required>
+          <option *ngFor="let client of clients" [value]="client.id">
+            {{ client.name }}
+          </option>
+        </select>
+
+        <input
+          type="datetime-local"
+          [(ngModel)]="editedIncident.incident.dateTime"
+          required
+        />
+
+        <label>
+          <input type="checkbox" [(ngModel)]="editedIncident.incident.isComplete" />
+          Завершен
+        </label>
+
+        <div *ngIf="editedIncident.incident.isComplete">
+          <label>Резолюция:</label>
+          <select [(ngModel)]="editedIncident.incident.resolutionId" required>
+            <option *ngFor="let resolution of resolutions" [value]="resolution.id">
+              {{ resolution.resolutionName }}
+            </option>
+          </select>
+        </div>
+
+        <button class="directory-buttons" (click)="saveIncident()">Сохранить</button>
+        <button class="directory-buttons" (click)="cancelEditing()">Отмена</button>
+      </div>
+
+      <!-- Отображение инцидента -->
+      <ng-template #viewMode>
+        <div>
+          <strong>Описание:</strong> {{ incident.incident.description }}<br />
+          <strong>Классификация:</strong> {{ incident.classification?.classificationName || 'Нет данных' }}<br />
+          <strong>Клиент:</strong> {{ incident.client?.name || 'Нет данных' }}<br />
+          <strong>Дата и время:</strong> {{ incident.incident.dateTime | date:'d MMMM y, HH:mm' }}<br />
+          <strong>Завершен:</strong> {{ incident.incident.isComplete ? 'Да' : 'Нет' }}<br />
+          <div *ngIf="incident.incident.isComplete">
+            <strong>Резолюция:</strong> {{ incident.resolution?.resolutionName || 'Нет данных' }} <br />
+          </div>
+
+          <button class="directory-buttons" (click)="startEditing(incident)">Редактировать</button>
+          <button class="directory-buttons" (click)="askDelete(incident.incident.id)">Удалить</button>
+        </div>
+      </ng-template>
+
+    </li>
+  </ul>
+</div>
+
+<!-- Подтверждение удаления -->
+<div class="modal" *ngIf="confirmDeleteId !== null">
+  <div class="modal-content">
+    <p>Вы уверены, что хотите удалить инцидент?</p>
+    <div class="modal-actions">
+      <button id="delete-yes" (click)="performDelete()">Да</button>
+      <button (click)="cancelDelete()">Нет</button>
+    </div>
+  </div>
+</div>
+<app-simple-modal
+  [message]="modalMessage"
+  [visible]="isModalVisible"
+  (closed)="isModalVisible = false">
+</app-simple-modal>
+<div *ngIf="!isAuthenticated" class="no-auth-text">
+  <p>Пожалуйста, войдите в систему, чтобы просматривать данные.</p>
+</div>
+
