@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IncidentBookAbp.Clients.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,6 +12,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace IncidentBookAbp.Clients
 {
+    [Authorize]
     public class ClientAppService : CrudAppService<
         Client,                 // Сущность
         ClientDto,              // DTO для отображения

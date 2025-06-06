@@ -13,10 +13,10 @@ using IncidentBookAbp.Resolutions.Dto;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-
+using Microsoft.AspNetCore.Authorization;
 namespace IncidentBookAbp.Incidents
 {
-
+    [Authorize]
     public class IncidentAppService : CrudAppService<
          Incident,
          IncidentDto,

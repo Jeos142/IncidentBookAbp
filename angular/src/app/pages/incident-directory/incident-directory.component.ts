@@ -52,6 +52,7 @@ export class IncidentDirectoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated;
+
     this.loadAll();
   }
 

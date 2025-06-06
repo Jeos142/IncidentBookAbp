@@ -34,6 +34,7 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 
 import { AuthService } from '@abp/ng.core'; // именно core, он содержит getAuthState
+import {AuthInterceptor} from './shared/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AuthService } from '@abp/ng.core'; // именно core, он соде�
   providers: [
 
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     APP_ROUTE_PROVIDER,
     provideAbpCore(
       withOptions({
