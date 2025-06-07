@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IncidentBookAbp.Clients.DTO;
+using IncidentBookAbp.IncidentClassifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
@@ -25,23 +26,10 @@ namespace IncidentBookAbp.Clients
             : base(repository)
         {
         }
-        //Сортировка
-        public override async Task<PagedResultDto<ClientDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        //Сортировка по умолчанию
+        protected override IQueryable<Client> ApplyDefaultSorting(IQueryable<Client> query)
         {
-            var queryable = await Repository.GetQueryableAsync();
-
-            var clients = await queryable
-                .OrderBy(c => c.Name) // Сортировка по имени
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                .ToListAsync();
-
-            var totalCount = await Repository.GetCountAsync();
-
-            return new PagedResultDto<ClientDto>(
-                totalCount,
-                ObjectMapper.Map<List<Client>, List<ClientDto>>(clients)
-            );
+            return query.OrderBy(x => x.Name);
         }
     }
     

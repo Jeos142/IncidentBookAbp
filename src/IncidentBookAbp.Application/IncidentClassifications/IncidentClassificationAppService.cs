@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-
+using System.Linq.Dynamic.Core; 
+using System.Threading.Tasks;  
 namespace IncidentBookAbp.IncidentClassifications
 {
     [Authorize]
@@ -26,23 +27,10 @@ namespace IncidentBookAbp.IncidentClassifications
         {
 
         }
-        // Сортировка
-        public override async Task<PagedResultDto<IncidentClassificationDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        // Сортировка по умолчанию
+        protected override IQueryable<IncidentClassification> ApplyDefaultSorting(IQueryable<IncidentClassification> query)
         {
-            var queryable = await Repository.GetQueryableAsync();
-
-            var classifications = await queryable
-                .OrderBy(x => x.ClassificationName) 
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                .ToListAsync();
-
-            var totalCount = await Repository.GetCountAsync();
-
-            return new PagedResultDto<IncidentClassificationDto>(
-                totalCount,
-                ObjectMapper.Map<List<IncidentClassification>, List<IncidentClassificationDto>>(classifications)
-            );
+            return query.OrderBy(x => x.ClassificationName);
         }
 
     }

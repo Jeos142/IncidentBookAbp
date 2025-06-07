@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IncidentBookAbp.IncidentClassifications;
 using IncidentBookAbp.Resolutions.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -25,23 +26,10 @@ namespace IncidentBookAbp.Resolutions
             : base(repository)
         {
         }
-        //Сортировка
-        public override async Task<PagedResultDto<ResolutionDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        //Сортировка по умолчанию
+        protected override IQueryable<Resolution> ApplyDefaultSorting(IQueryable<Resolution> query)
         {
-            var queryable = await Repository.GetQueryableAsync();
-
-            var resolutions = await queryable
-                .OrderBy(x => x.ResolutionName) 
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                .ToListAsync();
-
-            var totalCount = await Repository.GetCountAsync();
-
-            return new PagedResultDto<ResolutionDto>(
-                totalCount,
-                ObjectMapper.Map<List<Resolution>, List<ResolutionDto>>(resolutions)
-            );
+            return query.OrderBy(x => x.ResolutionName);
         }
 
     }
