@@ -50,21 +50,21 @@
   <!-- Список инцидентов -->
   <ul class="directory-list">
     <li *ngFor="let incident of incidents" class="directory-item">
-      <div *ngIf="editedIncident?.incident.id === incident.incident.id; else viewMode">
+      <div *ngIf="editedIncident?.id === incident.id; else viewMode">
 
         <input
-          [(ngModel)]="editedIncident.incident.description"
+          [(ngModel)]="editedIncident.description"
           placeholder="Описание"
           required
         />
 
-        <select [(ngModel)]="editedIncident.incident.classificationId" required>
+        <select [(ngModel)]="editedIncident.classification.id" required>
           <option *ngFor="let classification of classifications" [value]="classification.id">
             {{ classification.classificationName }}
           </option>
         </select>
 
-        <select [(ngModel)]="editedIncident.incident.clientId" required>
+        <select [(ngModel)]="editedIncident.client.id" required>
           <option *ngFor="let client of clients" [value]="client.id">
             {{ client.name }}
           </option>
@@ -72,18 +72,18 @@
 
         <input
           type="datetime-local"
-          [(ngModel)]="editedIncident.incident.dateTime"
+          [(ngModel)]="editedIncident.dateTime"
           required
         />
 
         <label>
-          <input type="checkbox" [(ngModel)]="editedIncident.incident.isComplete" />
+          <input type="checkbox" [(ngModel)]="editedIncident.isComplete" />
           Завершен
         </label>
 
-        <div *ngIf="editedIncident.incident.isComplete">
+        <div *ngIf="editedIncident.isComplete">
           <label>Резолюция:</label>
-          <select [(ngModel)]="editedIncident.incident.resolutionId" required>
+          <select [(ngModel)]="editedIncident.resolution.id" required>
             <option *ngFor="let resolution of resolutions" [value]="resolution.id">
               {{ resolution.resolutionName }}
             </option>
@@ -97,17 +97,17 @@
       <!-- Отображение инцидента -->
       <ng-template #viewMode>
         <div>
-          <strong>Описание:</strong> {{ incident.incident.description }}<br />
+          <strong>Описание:</strong> {{ incident.description }}<br />
           <strong>Классификация:</strong> {{ incident.classification?.classificationName || 'Нет данных' }}<br />
           <strong>Клиент:</strong> {{ incident.client?.name || 'Нет данных' }}<br />
-          <strong>Дата и время:</strong> {{ incident.incident.dateTime | date:'d MMMM y, HH:mm' }}<br />
-          <strong>Завершен:</strong> {{ incident.incident.isComplete ? 'Да' : 'Нет' }}<br />
-          <div *ngIf="incident.incident.isComplete">
+          <strong>Дата и время:</strong> {{ incident.dateTime | date:'d MMMM y, HH:mm' }}<br />
+          <strong>Завершен:</strong> {{ incident.isComplete ? 'Да' : 'Нет' }}<br />
+          <div *ngIf="incident.isComplete">
             <strong>Резолюция:</strong> {{ incident.resolution?.resolutionName || 'Нет данных' }} <br />
           </div>
 
           <button class="directory-buttons" (click)="startEditing(incident)">Редактировать</button>
-          <button class="directory-buttons" (click)="askDelete(incident.incident.id)">Удалить</button>
+          <button class="directory-buttons" (click)="askDelete(incident.id)">Удалить</button>
         </div>
       </ng-template>
 

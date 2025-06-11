@@ -11,9 +11,13 @@ namespace IncidentBookAbp.Incidents.Dto
 {
     public class IncidentWithNavigationPropertiesDto
     {
-        public IncidentDto Incident { get; set; }
+        public Guid Id { get; set; }
+        public string Description { get; set; }
+        public DateTime DateTime { get; set; }
+        public bool IsComplete { get; set; }
+
         public ClientDto Client { get; set; }
         public IncidentClassificationDto Classification { get; set; }
-        public ResolutionDto Resolution { get; set; }
+        public ResolutionDto? Resolution { get; set; }
     }
 }

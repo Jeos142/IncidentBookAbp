@@ -18,65 +18,39 @@ namespace IncidentBookAbp.Incidents
 {
     [Authorize]
     public class IncidentAppService : CrudAppService<
-         Incident,
-         IncidentDto,
-         Guid,
-         PagedAndSortedResultRequestDto,
-         CreateUpdateIncidentDto
-     >, IIncidentAppService
+     Incident,
+     IncidentDto,
+     Guid,
+     PagedAndSortedResultRequestDto,
+     CreateUpdateIncidentDto
+ >, IIncidentAppService
     {
-        private readonly IRepository<Incident, Guid> _incidentRepository;
-        private readonly IRepository<Client, Guid> _clientRepository;
-        private readonly IRepository<IncidentClassification, Guid> _classificationRepository;
-        private readonly IRepository<Resolution, Guid> _resolutionRepository;
+        private readonly IIncidentRepository _incidentRepository;
 
-        public IncidentAppService(
-        IRepository<Incident, Guid> incidentRepository,
-        IRepository<Client, Guid> clientRepository,
-        IRepository<IncidentClassification, Guid> classificationRepository,
-        IRepository<Resolution, Guid> resolutionRepository)
-        : base(incidentRepository)
-            {
-                _incidentRepository = incidentRepository;
-                _clientRepository = clientRepository;
-                _classificationRepository = classificationRepository;
-                _resolutionRepository = resolutionRepository;
-            }
+        public IncidentAppService(IIncidentRepository incidentRepository)
+            : base(incidentRepository)
+        {
+            _incidentRepository = incidentRepository;
+        }
+
         public async Task<PagedResultDto<IncidentWithNavigationPropertiesDto>> GetListWithNavigationAsync(PagedAndSortedResultRequestDto input)
         {
-            var query = await _incidentRepository.WithDetailsAsync();
-            query = query.OrderByDescending(i => i.DateTime); //сортировка
-            var totalCount = await AsyncExecuter.CountAsync(query);
-            var incidents = await AsyncExecuter.ToListAsync(
-                query.Skip(input.SkipCount).Take(input.MaxResultCount)
-            );
+            var totalCount = await _incidentRepository.GetCountAsync();
 
-            var result = new List<IncidentWithNavigationPropertiesDto>();
+            var incidents = await _incidentRepository.GetListWithNavigationPropertiesAsync(input.SkipCount, input.MaxResultCount);
 
-            foreach (var incident in incidents)
+            var result = incidents.Select(i =>
             {
-                var client = await _clientRepository.GetAsync(x => x.Id == incident.ClientId);
-                var classification = await _classificationRepository.GetAsync(x => x.Id == incident.ClassificationId);
-
-                Resolution resolution = null;
-                if (incident.ResolutionId.HasValue)
-                {
-                    resolution = await _resolutionRepository.GetAsync(x => x.Id == incident.ResolutionId.Value);
-                }
-
-                result.Add(new IncidentWithNavigationPropertiesDto
-                {
-                    Incident = ObjectMapper.Map<Incident, IncidentDto>(incident),
-                    Client = ObjectMapper.Map<Client, ClientDto>(client),
-                    Classification = ObjectMapper.Map<IncidentClassification, IncidentClassificationDto>(classification),
-                    Resolution = resolution != null ? ObjectMapper.Map<Resolution, ResolutionDto>(resolution) : null
-                });
-            }
+                var dto = ObjectMapper.Map<Incident, IncidentWithNavigationPropertiesDto>(i);
+                dto.Client = ObjectMapper.Map<Client, ClientDto>(i.Client);
+                dto.Classification = ObjectMapper.Map<IncidentClassification, IncidentClassificationDto>(i.Classification);
+                dto.Resolution = i.Resolution != null ? ObjectMapper.Map<Resolution, ResolutionDto>(i.Resolution) : null;
+                return dto;
+            }).ToList();
 
             return new PagedResultDto<IncidentWithNavigationPropertiesDto>(totalCount, result);
         }
-
-
     }
+
 
 }

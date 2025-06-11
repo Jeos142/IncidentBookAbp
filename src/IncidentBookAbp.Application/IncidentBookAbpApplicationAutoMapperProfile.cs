@@ -24,6 +24,9 @@ public class IncidentBookAbpApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdateResolutionDto, Resolution>();
         CreateMap<Incident, IncidentDto>();
         CreateMap<CreateUpdateIncidentDto, Incident>();
-
+        CreateMap<Incident, IncidentWithNavigationPropertiesDto>()
+            .ForMember(dest => dest.Client, opt => opt.Ignore()) 
+            .ForMember(dest => dest.Classification, opt => opt.Ignore())
+            .ForMember(dest => dest.Resolution, opt => opt.Ignore());
     }
 }

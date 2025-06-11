@@ -22,8 +22,11 @@ export interface IncidentDto extends EntityDto<string> {
 }
 
 export interface IncidentWithNavigationPropertiesDto {
-  incident: IncidentDto;
+  id: string;
+  description: string;
+  dateTime: string;
+  isComplete: boolean;
   client: ClientDto;
   classification: IncidentClassificationDto;
-  resolution: ResolutionDto;
+  resolution?: ResolutionDto;
 }

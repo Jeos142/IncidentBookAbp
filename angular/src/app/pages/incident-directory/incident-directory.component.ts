@@ -141,15 +141,15 @@ export class IncidentDirectoryComponent implements OnInit {
     }
     else{
       const updatedIncident: CreateUpdateIncidentDto = {
-        description: this.editedIncident.incident.description || '',
-        clientId: this.editedIncident.incident.clientId,
-        classificationId: this.editedIncident.incident.classificationId,
-        dateTime: this.editedIncident.incident.dateTime,
-        isComplete: this.editedIncident.incident.isComplete,
-        resolutionId: this.editedIncident.incident.resolutionId,
+        description: this.editedIncident.description || '',
+        clientId: this.editedIncident.client.id,
+        classificationId: this.editedIncident.classification.id,
+        dateTime: this.editedIncident.dateTime,
+        isComplete: this.editedIncident.isComplete,
+        resolutionId: this.editedIncident.resolution.id,
       };
 
-      this.incidentService.update(this.editedIncident.incident.id!, updatedIncident).subscribe({
+      this.incidentService.update(this.editedIncident.id!, updatedIncident).subscribe({
         next: () => {
           this.loadIncidents();
           this.editedIncident = null;
