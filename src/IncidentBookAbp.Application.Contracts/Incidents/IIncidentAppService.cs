@@ -15,7 +15,7 @@ namespace IncidentBookAbp.Incidents
        PagedAndSortedResultRequestDto,
        CreateUpdateIncidentDto>
     {
-        Task<PagedResultDto<IncidentWithNavigationPropertiesDto>> GetListWithNavigationAsync(PagedAndSortedResultRequestDto input);
+        Task<PagedResultDto<IncidentWithNavigationPropertiesDto>> GetListWithNavigationAsync(PagedResultRequestDto input);
 
 
     }

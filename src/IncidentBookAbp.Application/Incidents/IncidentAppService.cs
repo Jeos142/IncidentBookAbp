@@ -33,7 +33,7 @@ namespace IncidentBookAbp.Incidents
             _incidentRepository = incidentRepository;
         }
 
-        public async Task<PagedResultDto<IncidentWithNavigationPropertiesDto>> GetListWithNavigationAsync(PagedAndSortedResultRequestDto input)
+        public async Task<PagedResultDto<IncidentWithNavigationPropertiesDto>> GetListWithNavigationAsync(PagedResultRequestDto input)
         {
             var totalCount = await _incidentRepository.GetCountAsync();
 
