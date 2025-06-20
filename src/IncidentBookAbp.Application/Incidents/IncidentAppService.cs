@@ -42,9 +42,6 @@ namespace IncidentBookAbp.Incidents
             var result = incidents.Select(i =>
             {
                 var dto = ObjectMapper.Map<Incident, IncidentWithNavigationPropertiesDto>(i);
-                dto.Client = ObjectMapper.Map<Client, ClientDto>(i.Client);
-                dto.Classification = ObjectMapper.Map<IncidentClassification, IncidentClassificationDto>(i.Classification);
-                dto.Resolution = i.Resolution != null ? ObjectMapper.Map<Resolution, ResolutionDto>(i.Resolution) : null;
                 return dto;
             }).ToList();
 

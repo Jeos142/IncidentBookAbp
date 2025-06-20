@@ -25,8 +25,8 @@ public class IncidentBookAbpApplicationAutoMapperProfile : Profile
         CreateMap<Incident, IncidentDto>();
         CreateMap<CreateUpdateIncidentDto, Incident>();
         CreateMap<Incident, IncidentWithNavigationPropertiesDto>()
-            .ForMember(dest => dest.Client, opt => opt.Ignore()) 
-            .ForMember(dest => dest.Classification, opt => opt.Ignore())
-            .ForMember(dest => dest.Resolution, opt => opt.Ignore());
+            .ForMember(dest => dest.Client, opt => opt.MapFrom(src => src.Client))
+            .ForMember(dest => dest.Classification, opt => opt.MapFrom(src => src.Classification))
+            .ForMember(dest => dest.Resolution, opt => opt.MapFrom(src => src.Resolution));
     }
 }
