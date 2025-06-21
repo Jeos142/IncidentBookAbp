@@ -29,4 +29,5 @@ export interface IncidentWithNavigationPropertiesDto {
   client: ClientDto;
   classification: IncidentClassificationDto;
   resolution?: ResolutionDto;
+  resolutionId?: string; //Для редактирования инцидента
 }

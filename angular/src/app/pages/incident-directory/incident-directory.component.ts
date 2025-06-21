@@ -129,7 +129,10 @@ export class IncidentDirectoryComponent implements OnInit {
   }
 
   startEditing(incident: IncidentWithNavigationPropertiesDto): void {
-    this.editedIncident = JSON.parse(JSON.stringify(incident)); // Копия
+    this.editedIncident = {
+      ...JSON.parse(JSON.stringify(incident)),
+      resolutionId: incident.resolution?.id ?? null // если есть, скопировать
+    };
   }
 
   saveIncident(): void {
@@ -146,7 +149,7 @@ export class IncidentDirectoryComponent implements OnInit {
         classificationId: this.editedIncident.classification.id,
         dateTime: this.editedIncident.dateTime,
         isComplete: this.editedIncident.isComplete,
-        resolutionId: this.editedIncident.resolution.id,
+        resolutionId: this.editedIncident.isComplete ? this.editedIncident.resolutionId : undefined,
       };
 
       this.incidentService.update(this.editedIncident.id!, updatedIncident).subscribe({

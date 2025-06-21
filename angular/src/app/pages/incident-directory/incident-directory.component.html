@@ -83,7 +83,7 @@
 
         <div *ngIf="editedIncident.isComplete">
           <label>Резолюция:</label>
-          <select [(ngModel)]="editedIncident.resolution.id" required>
+          <select [(ngModel)]="editedIncident.resolutionId" required>
             <option *ngFor="let resolution of resolutions" [value]="resolution.id">
               {{ resolution.resolutionName }}
             </option>
